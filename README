@@ -4,5 +4,5 @@ Author:
 Description:
 	Interpreter for Typed Arithmetic Expressions.
 
-Objective: 
+Objective:
 	Add aditional features to TAE and modify the interpreter to suit the changes as part of Programming Languages Lab course.
