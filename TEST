@@ -1,0 +1,5 @@
+compile all files:
+		make
+
+script to interpret the file test.f:
+		./f test.f
