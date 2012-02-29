@@ -78,6 +78,9 @@ open Syntax
 %token <Support.Error.info> TRIANGLE
 %token <Support.Error.info> USCORE
 %token <Support.Error.info> VBAR
+%token <Support.Error.info> PAIR
+%token <Support.Error.info> FST
+%token <Support.Error.info> SND
 
 /* ---------------------------------------------------------------------- */
 /* The starting production of the generated parser is the syntactic class
@@ -122,6 +125,12 @@ AppTerm :
       { TmPred($1, $2) }
   | ISZERO ATerm
       { TmIsZero($1, $2) }
+  | PAIR ATerm ATerm
+  	{ TmPair($1, $2, $3) }
+  | FST ATerm
+  	{ TmFst ($1, $2) }
+  | SND ATerm
+  	{ TmSnd ($1, $2) }
 
 /* Atomic terms are ones that never require extra parentheses */
 ATerm :
