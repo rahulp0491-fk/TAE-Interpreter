@@ -52,6 +52,16 @@ let rec eval1 t = match t with
   | TmIsZero(fi,t1) ->
       let t1' = eval1 t1 in
       TmIsZero(fi, t1')
+  | TmFst (_, TmPair (fi,v1,v2)) when (isval v1) && (isval v2)->
+      v1
+  | TmSnd (_, TmPair (fi,v1,v2)) when (isval v1) && (isval v2)->
+      v2
+  | TmFst (fi, t1) ->
+      let t1' = eval1 t1 in
+      TmFst(fi, t1')
+  | TmSnd (fi, t1) ->
+      let t1' = eval1 t1 in
+      TmSnd(fi, t1')
   | _ -> 
       raise NoRuleApplies
 
@@ -68,6 +78,30 @@ let rec typeof t =
       TyBool
   | TmFalse(fi) -> 
       TyBool
+(* ADDED PAIR TYPE *)
+  | TmPair(fi,v1,v2)   -> 
+      if (isval v1) && (isval v2) then
+         let tyT1 = typeof v1 and tyT2 = typeof v2 in
+         if (=) tyT1 tyT2 then
+           TyPair (tyT1, tyT2)
+         else
+           error fi "arms of pair have different types"
+      else
+         error fi "pair not made up of values"
+  | TmFst (_,TmPair(fi,t1,t2)) ->
+      if (=) (typeof (TmPair(fi,t1,t2))) (TyPair ((typeof t1),(typeof t2))) then
+        typeof t1
+      else
+        error fi "argument not a pair"
+  | TmSnd (_,TmPair(fi,t1,t2)) ->
+      if (=) (typeof (TmPair(fi,t1,t2))) (TyPair ((typeof t1),(typeof t2))) then
+        typeof t2
+      else
+        error fi "argument not a pair"
+  | TmFst (fi,_) ->
+      error fi "argument not a pair"
+  | TmSnd (fi,_) ->
+      error fi "argument not a pair"
   | TmIf(fi,t1,t2,t3) ->
      if (=) (typeof t1) TyBool then
        (*
