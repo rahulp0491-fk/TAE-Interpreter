@@ -9,6 +9,7 @@ type ty =
     TyBool
   | TyNat
   | TyIf of ty * ty
+  | TyPair of ty * ty
 
 type term =
     TmTrue of info
@@ -18,6 +19,9 @@ type term =
   | TmSucc of info * term
   | TmPred of info * term
   | TmIsZero of info * term
+  | TmPair of info * term * term
+  | TmFst of info * term
+  | TmSnd of info * term
 
 type command =
   | Eval of info * term
@@ -32,7 +36,10 @@ let tmInfo t = match t with
   | TmZero(fi) -> fi
   | TmSucc(fi,_) -> fi
   | TmPred(fi,_) -> fi
-  | TmIsZero(fi,_) -> fi 
+  | TmIsZero(fi,_) -> fi
+  | TmPair(fi,_,_) -> fi
+  | TmFst(fi,_) -> fi
+  | TmSnd(fi,_) -> fi
 
 (* ---------------------------------------------------------------------- *)
 (* Printing *)
@@ -59,9 +66,10 @@ let rec printty_Type outer tyT = match tyT with
       tyT -> printty_AType outer tyT
 
 and printty_AType outer tyT = match tyT with
-    TyBool -> pr "Bool"
+    TyBool -> pr "Bool" 
   | TyNat -> pr "Nat"
   | TyIf (tyT1, tyT2) -> pr "("; printty_Type outer tyT1; pr " * "; printty_Type outer tyT2; pr ")"
+  | TyPair (tyT1, tyT2) -> pr "Pair"; pr "("; printty_Type outer tyT1; pr " * "; printty_Type outer tyT2; pr ")"
   | tyT -> pr "("; printty_Type outer tyT; pr ")"
 
 let printty tyT = printty_Type true tyT 
@@ -90,6 +98,8 @@ and printtm_AppTerm outer t = match t with
 and printtm_ATerm outer t = match t with
     TmTrue(_) -> pr "true"
   | TmFalse(_) -> pr "false"
+  | TmPair (_,v1,v2) ->
+     pr "("; printtm_ATerm false v1; pr ","; printtm_ATerm false v2; pr ")"
   | TmZero(fi) ->
        pr "0"
   | TmSucc(_,t1) ->
@@ -106,6 +116,10 @@ and printtm_ATerm outer t = match t with
        | TmPred(_,s) -> f (n-1) s
        | _ -> (pr "(pred "; printtm_ATerm false t1; pr ")")
      in f (-1) t1
+  | TmFst (_,t1) ->
+      pr "(fst "; printtm_ATerm false t1; pr ")"
+  | TmSnd (_,t1) ->
+      pr "(snd "; printtm_ATerm false t1; pr ")"
   | t -> pr "("; printtm_Term outer t; pr ")"
 
 let printtm t = printtm_Term true t
