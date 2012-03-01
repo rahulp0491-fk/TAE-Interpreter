@@ -3,7 +3,7 @@ open Syntax
 open Support.Error
 open Support.Pervasive
 
-(* ------------------------   EVALUATION  ----------------------- *)
+(* ------------------------   EVALUATION  ------------------------ *)
 
 exception NoRuleApplies
 
@@ -62,6 +62,17 @@ let rec eval1 t = match t with
   | TmSnd (fi, t1) ->
       let t1' = eval1 t1 in
       TmSnd(fi, t1')
+  | TmAnd(fi,TmBzero(_),TmBzero(_)) ->
+  	TmBzero(dummyinfo)
+  | TmAnd(fi,TmBzero(_),TmBone(_)) ->
+  	TmBzero(dummyinfo)
+  | TmAnd(fi,TmBone(_),TmBzero(_)) ->
+  	TmBzero(dummyinfo)
+  | TmAnd(fi,TmBone(_),TmBone(_)) ->
+  	TmBone(dummyinfo)
+  | TmAnd(fi,t1,t2) ->
+  	let t1' = eval1 t1 and t2' = eval1 t2 in
+  	TmAnd (fi,t1',t2')
   | _ -> 
       raise NoRuleApplies
 
@@ -78,6 +89,10 @@ let rec typeof t =
       TyBool
   | TmFalse(fi) -> 
       TyBool
+  | TmBzero(fi) ->
+  	TyBin
+  | TmBone(fi) ->
+  	TyBin
 (* ADDED PAIR TYPE *)
   | TmPair(fi,v1,v2)   -> 
       if (isval v1) && (isval v2) then
@@ -124,3 +139,6 @@ let rec typeof t =
   | TmIsZero(fi,t1) ->
       if (=) (typeof t1) TyNat then TyBool
       else error fi "argument of iszero is not a number"
+  | TmAnd(fi,t1,t2) ->
+  	if (=) (typeof t1) TyBin && (=) (typeof t2) TyBin then TyBin
+  	else error fi "argument of and are not binary"
