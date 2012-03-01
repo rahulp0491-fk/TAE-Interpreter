@@ -162,9 +162,11 @@ let rec typeof t =
   | TmIsZero(fi,t1) ->
       if (=) (typeof t1) TyNat then TyBool
       else error fi "argument of iszero is not a number"
+(*
   | TmAnd(fi,t1,t2) ->
   	if (=) (typeof t1) TyBin && (=) (typeof t2) TyBin then TyBin
   	else error fi "argument of and are not binary"
+*)
   | TmIncr(fi,t1) ->
       if (=) (typeof t1) TyBin then TyBin
       else error fi "argument of incr is not a binary"

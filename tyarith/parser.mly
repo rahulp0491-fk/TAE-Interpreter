@@ -140,10 +140,10 @@ AppTerm :
   	{ TmFst ($1, $2) }
   | SND ATerm
   	{ TmSnd ($1, $2) }
-(*
+/*
   | AND ATerm ATerm
   	{ TmAnd ($1, $2, $3) }
-*)
+*/
   | INCR ATerm
       { TmIncr ($1, $2) }
 
@@ -164,12 +164,12 @@ ATerm :
       { TmOZ($1) }
   | OO
       { TmOO($1) }
-(*
+/*
   | BZERO
   	{ TmBzero($1) }
   | BONE
   	{ TmBone($1) }
-*)
+*/
   | INTV
       { let rec f n = match n with
               0 			-> TmZero($1.i)
