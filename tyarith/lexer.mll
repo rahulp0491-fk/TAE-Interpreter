@@ -27,6 +27,7 @@ let reservedWords = [
   ("and", fun i -> Parser.AND i);
   ("zero", fun i -> Parser.BZERO i);
   ("one", fun i -> Parser.BONE i);
+  ("Binary", fun i -> Parser.BINARY i);
   
   (* Symbols *)
   ("_", fun i -> Parser.USCORE i);

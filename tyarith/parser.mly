@@ -84,6 +84,7 @@ open Syntax
 %token <Support.Error.info> PAIR
 %token <Support.Error.info> FST
 %token <Support.Error.info> SND
+%token <Support.Error.info> BINARY
 
 /* ---------------------------------------------------------------------- */
 /* The starting production of the generated parser is the syntactic class
@@ -170,6 +171,7 @@ AType :
       { TyBool }
   | NAT
       { TyNat }
-
+  | BINARY
+      { TyBin }
 
 /*   */
