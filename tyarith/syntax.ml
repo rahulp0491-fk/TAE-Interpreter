@@ -76,8 +76,8 @@ and printty_AType outer tyT = match tyT with
     TyBool -> pr "Bool" 
   | TyNat -> pr "Nat"
   | TyBin -> pr "Binary"
-  | TyIf (tyT1, tyT2) -> pr "("; printty_Type outer tyT1; pr " * "; printty_Type outer tyT2; pr ")"
-  | TyPair (tyT1, tyT2) -> pr "Pair"; pr "("; printty_Type outer tyT1; pr " * "; printty_Type outer tyT2; pr ")"
+  | TyIf (tyT1, tyT2) -> pr "If "; pr "("; printty_Type outer tyT1; pr " * "; printty_Type outer tyT2; pr ")"
+  | TyPair (tyT1, tyT2) -> pr "Pair "; pr "("; printty_Type outer tyT1; pr " * "; printty_Type outer tyT2; pr ")"
   | tyT -> pr "("; printty_Type outer tyT; pr ")"
 
 let printty tyT = printty_Type true tyT 
