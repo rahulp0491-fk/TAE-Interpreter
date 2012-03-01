@@ -26,6 +26,11 @@ type term =
   | TmAnd of info * term * term
   | TmBzero of info
   | TmBone of info
+  | TmIncr of info * term
+  | TmZZ of info
+  | TmZO of info
+  | TmOZ of info
+  | TmOO of info
 
 type command =
   | Eval of info * term
@@ -47,6 +52,11 @@ let tmInfo t = match t with
   | TmAnd (fi, _, _) -> fi
   | TmBzero(fi) -> fi
   | TmBone(fi) -> fi
+  | TmIncr(fi,_) -> fi
+  | TmZZ(fi) -> fi
+  | TmZO(fi) -> fi
+  | TmOZ(fi) -> fi
+  | TmOO(fi) -> fi
 
 (* ---------------------------------------------------------------------- *)
 (* Printing *)
@@ -103,13 +113,25 @@ and printtm_AppTerm outer t = match t with
        pr "iszero "; printtm_ATerm false t1
   | TmAnd (_,t1,t2) ->
   	 pr "and "; printtm_ATerm false t1; printtm_ATerm false t2
+  | TmIncr(_,t1) ->
+       pr "incr "; printtm_ATerm false t1
   | t -> printtm_ATerm outer t
 
 and printtm_ATerm outer t = match t with
     TmTrue(_) -> pr "true"
   | TmFalse(_) -> pr "false"
-  | TmBzero(_) -> pr "zero"
-  | TmBone(_) -> pr "one"
+  | TmBzero(_) -> pr "b0"
+  | TmBone(_) -> pr "b1"
+  | TmZero(fi) ->
+       pr "0"
+  | TmZZ(fi) ->
+       pr "00"
+  | TmZO(fi) ->
+       pr "01"
+  | TmOZ(fi) ->
+       pr "10"
+  | TmOO(fi) ->
+       pr "11"
   | TmPair (_,v1,v2) ->
      pr "("; printtm_ATerm false v1; pr ","; printtm_ATerm false v2; pr ")"
   | TmZero(fi) ->

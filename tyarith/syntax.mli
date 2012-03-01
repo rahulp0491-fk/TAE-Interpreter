@@ -25,6 +25,11 @@ type term =
   | TmAnd of info * term * term
   | TmBzero of info
   | TmBone of info
+  | TmIncr of info * term
+  | TmZZ of info
+  | TmZO of info
+  | TmOZ of info
+  | TmOO of info
 
 type command =
   | Eval of info * term
