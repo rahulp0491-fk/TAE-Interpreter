@@ -25,9 +25,10 @@ let reservedWords = [
   ("fst", fun i -> Parser.FST i);
   ("snd", fun i -> Parser.SND i);
   ("and", fun i -> Parser.AND i);
-  ("zero", fun i -> Parser.BZERO i);
-  ("one", fun i -> Parser.BONE i);
+  ("b0", fun i -> Parser.BZERO i);
+  ("b1", fun i -> Parser.BONE i);
   ("Binary", fun i -> Parser.BINARY i);
+  ("incr", fun i -> Parser.INCR i);
   
   (* Symbols *)
   ("_", fun i -> Parser.USCORE i);
@@ -60,6 +61,10 @@ let reservedWords = [
   ("|}", fun i -> Parser.BARRCURLY i);
   ("|>", fun i -> Parser.BARGT i);
   ("|]", fun i -> Parser.BARRSQUARE i);
+  ("b00", fun i -> Parser.ZZ i);
+  ("b01", fun i -> Parser.ZO i);
+  ("b10", fun i -> Parser.OZ i);
+  ("b11", fun i -> Parser.OO i);
 
   (* Special compound symbols: *)
   (":=", fun i -> Parser.COLONEQ i);
