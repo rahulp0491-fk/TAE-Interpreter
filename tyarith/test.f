@@ -12,4 +12,6 @@ pred 2;
 pair true false;
 fst (pair true false);
 snd (pair 0 (succ 0));
-pair true (iszero (succ 0));
+pair true false;
+and zero one;
+and one one;
