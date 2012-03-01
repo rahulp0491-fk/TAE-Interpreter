@@ -32,6 +32,9 @@ open Syntax
 %token <Support.Error.info> PRED
 %token <Support.Error.info> ISZERO
 %token <Support.Error.info> NAT
+%token <Support.Error.info> AND
+%token <Support.Error.info> BZERO
+%token <Support.Error.info> BONE
 
 /* Identifier and constant value tokens */
 %token <string Support.Error.withinfo> UCID  /* uppercase-initial */
@@ -131,6 +134,9 @@ AppTerm :
   	{ TmFst ($1, $2) }
   | SND ATerm
   	{ TmSnd ($1, $2) }
+  | AND ATerm ATerm
+  	{ TmAnd ($1, $2, $3) }
+
 
 /* Atomic terms are ones that never require extra parentheses */
 ATerm :
@@ -140,6 +146,10 @@ ATerm :
       { TmTrue($1) }
   | FALSE
       { TmFalse($1) }
+  | BZERO
+  	{ TmBzero($1) }
+  | BONE
+  	{ TmBone($1) }
   | INTV
       { let rec f n = match n with
               0 			-> TmZero($1.i)
