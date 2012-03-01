@@ -35,6 +35,11 @@ open Syntax
 %token <Support.Error.info> AND
 %token <Support.Error.info> BZERO
 %token <Support.Error.info> BONE
+%token <Support.Error.info> INCR
+%token <Support.Error.info> ZZ
+%token <Support.Error.info> ZO
+%token <Support.Error.info> OZ
+%token <Support.Error.info> OO
 
 /* Identifier and constant value tokens */
 %token <string Support.Error.withinfo> UCID  /* uppercase-initial */
@@ -137,6 +142,8 @@ AppTerm :
   	{ TmSnd ($1, $2) }
   | AND ATerm ATerm
   	{ TmAnd ($1, $2, $3) }
+  | INCR ATerm
+      { TmIncr ($1, $2) }
 
 
 /* Atomic terms are ones that never require extra parentheses */
@@ -147,6 +154,14 @@ ATerm :
       { TmTrue($1) }
   | FALSE
       { TmFalse($1) }
+  | ZZ
+      { TmZZ($1) }
+  | ZO
+      { TmZO($1) }
+  | OZ
+      { TmOZ($1) }
+  | OO
+      { TmOO($1) }
   | BZERO
   	{ TmBzero($1) }
   | BONE
