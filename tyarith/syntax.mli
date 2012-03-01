@@ -9,6 +9,7 @@ type ty =
   | TyNat
   | TyIf of ty * ty
   | TyPair of ty * ty
+  | TyBin
 
 type term =
     TmTrue of info
@@ -21,6 +22,9 @@ type term =
   | TmPair of info * term * term
   | TmFst of info * term
   | TmSnd of info * term
+  | TmAnd of info * term * term
+  | TmBzero of info
+  | TmBone of info
 
 type command =
   | Eval of info * term
