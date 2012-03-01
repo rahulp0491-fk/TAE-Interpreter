@@ -62,6 +62,7 @@ let rec eval1 t = match t with
   | TmSnd (fi, t1) ->
       let t1' = eval1 t1 in
       TmSnd(fi, t1')
+(*
   | TmAnd(fi,TmBzero(_),TmBzero(_)) ->
   	TmBzero(dummyinfo)
   | TmAnd(fi,TmBzero(_),TmBone(_)) ->
@@ -73,6 +74,18 @@ let rec eval1 t = match t with
   | TmAnd(fi,t1,t2) ->
   	let t1' = eval1 t1 and t2' = eval1 t2 in
   	TmAnd (fi,t1',t2')
+*)
+  | TmIncr(_,TmZZ(_)) ->
+      TmZO(dummyinfo)
+  | TmIncr(_,TmZO(_)) ->
+      TmOZ(dummyinfo)
+  | TmIncr(_,TmOZ(_)) ->
+      TmOO(dummyinfo)
+  | TmIncr(_,TmOO(_)) ->
+      TmOO(dummyinfo)
+  | TmIncr(fi,t1) ->
+      let t1' = eval1 t1 in
+      TmIncr(fi, t1')
   | _ -> 
       raise NoRuleApplies
 
@@ -89,10 +102,20 @@ let rec typeof t =
       TyBool
   | TmFalse(fi) -> 
       TyBool
+(*
   | TmBzero(fi) ->
   	TyBin
   | TmBone(fi) ->
   	TyBin
+*)
+  | TmZZ(fi) -> 
+      TyBin
+  | TmZO(fi) -> 
+      TyBin
+  | TmOZ(fi) -> 
+      TyBin
+  | TmOO(fi) -> 
+      TyBin
 (* ADDED PAIR TYPE *)
   | TmPair(fi,v1,v2)   -> 
       if (isval v1) && (isval v2) then
@@ -142,3 +165,6 @@ let rec typeof t =
   | TmAnd(fi,t1,t2) ->
   	if (=) (typeof t1) TyBin && (=) (typeof t2) TyBin then TyBin
   	else error fi "argument of and are not binary"
+  | TmIncr(fi,t1) ->
+      if (=) (typeof t1) TyBin then TyBin
+      else error fi "argument of incr is not a binary"
