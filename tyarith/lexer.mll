@@ -25,8 +25,10 @@ let reservedWords = [
   ("fst", fun i -> Parser.FST i);
   ("snd", fun i -> Parser.SND i);
   ("and", fun i -> Parser.AND i);
-  ("b0", fun i -> Parser.BZERO i);
-  ("b1", fun i -> Parser.BONE i);
+(*
+  ("zero", fun i -> Parser.BZERO i);
+  ("one", fun i -> Parser.BONE i);
+*)
   ("Binary", fun i -> Parser.BINARY i);
   ("incr", fun i -> Parser.INCR i);
   

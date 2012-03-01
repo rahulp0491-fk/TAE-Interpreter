@@ -23,9 +23,11 @@ type term =
   | TmPair of info * term * term
   | TmFst of info * term
   | TmSnd of info * term
+(*
   | TmAnd of info * term * term
   | TmBzero of info
   | TmBone of info
+*)
   | TmIncr of info * term
   | TmZZ of info
   | TmZO of info
@@ -49,9 +51,11 @@ let tmInfo t = match t with
   | TmPair(fi,_,_) -> fi
   | TmFst(fi,_) -> fi
   | TmSnd(fi,_) -> fi
+(*
   | TmAnd (fi, _, _) -> fi
   | TmBzero(fi) -> fi
   | TmBone(fi) -> fi
+*)
   | TmIncr(fi,_) -> fi
   | TmZZ(fi) -> fi
   | TmZO(fi) -> fi
@@ -111,8 +115,10 @@ and printtm_AppTerm outer t = match t with
        pr "pred "; printtm_ATerm false t1
   | TmIsZero(_,t1) ->
        pr "iszero "; printtm_ATerm false t1
+(*
   | TmAnd (_,t1,t2) ->
   	 pr "and "; printtm_ATerm false t1; printtm_ATerm false t2
+*)
   | TmIncr(_,t1) ->
        pr "incr "; printtm_ATerm false t1
   | t -> printtm_ATerm outer t
@@ -120,8 +126,10 @@ and printtm_AppTerm outer t = match t with
 and printtm_ATerm outer t = match t with
     TmTrue(_) -> pr "true"
   | TmFalse(_) -> pr "false"
-  | TmBzero(_) -> pr "b0"
-  | TmBone(_) -> pr "b1"
+(*
+  | TmBzero(_) -> pr "zero"
+  | TmBone(_) -> pr "one"
+*)
   | TmZero(fi) ->
        pr "0"
   | TmZZ(fi) ->
